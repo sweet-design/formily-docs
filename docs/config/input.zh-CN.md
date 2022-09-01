@@ -17,23 +17,25 @@ toc: menu
 - 需要用户输入表单域内容时
 - 提供组合型输入框，带搜索的输入框，还可以进行大小选择
 
+### cate
+
+- 类别：字段属性
+- 名称：控件类别
+- 类型: `string`
+- 默认值：`input`
+- 详细：
+
+控件的类别。
+
 ### type
 
 - 类别：字段属性
-- 名称：字段标识
+- 名称：控件类型
 - 类型: `string`
-- 默认值：`''`
+- 默认值：`'input'`
 - 详细：
 
-一般指对应数据库中的列名。
-
-示例：
-
-```js
-{
-  type: 'marginId';
-}
-```
+控件的类型。
 
 ### name
 
@@ -43,17 +45,35 @@ toc: menu
 - 默认值：`''`
 - 详细：
 
+一般指对应数据库中的列名,只能用英文字母。
+
+示例：
+
+```js
+{
+  name: 'name';
+}
+```
+
+### title
+
+- 类别：字段属性
+- 名称：标题
+- 类型: `string`
+- 默认值：`'输入框'`
+- 详细：
+
 指显示控件的名称，如果配置了国际化标识，将读取指定的数据，否则此处将作为默认值。
 
 示例：
 
 ```js
 {
-  name: '所属组织';
+  title: '姓名';
 }
 ```
 
-### title
+### titleLangKey
 
 - 类别：字段属性
 - 名称：标题国际化标识
@@ -67,11 +87,11 @@ toc: menu
 
 ```js
 {
-  title: 'marginId';
+  titleLangKey: 'name';
 }
 ```
 
-### titleLangKey
+### description
 
 - 类别：字段属性
 - 名称：描述
@@ -85,11 +105,11 @@ toc: menu
 
 ```js
 {
-  titleLangKey: '所属组织名称';
+  description: '名称';
 }
 ```
 
-### description
+### descriptionLangKey
 
 - 类别：字段属性
 - 名称：描述国际化标识
@@ -103,11 +123,11 @@ toc: menu
 
 ```js
 {
-  description: 'groupName';
+  descriptionLangKey: 'name';
 }
 ```
 
-### descriptionLangKey
+### display
 
 - 类别：字段属性
 - 名称：展示状态
@@ -122,11 +142,11 @@ toc: menu
 
 ```js
 {
-  descriptionLangKey: 'visible';
+  display: 'visible';
 }
 ```
 
-### display
+### pattern
 
 - 类别：字段属性
 - 名称：UI 形态
@@ -141,11 +161,11 @@ toc: menu
 
 ```js
 {
-  display: 'editable';
+  pattern: 'editable';
 }
 ```
 
-### pattern
+### valueFormatter
 
 - 类别：字段属性
 - 名称：格式化函数
@@ -159,30 +179,13 @@ toc: menu
 
 ```js
 {
-  (dayjs, models) => {
-    return (rule, value, callback) => {
-      if (callback) {
-        // PC端
-        if (value === 'pattern') {
-          callback(new Error('开始时间不能小于结束时间'));
-        } else {
-          callback();
-        }
-      } else {
-        // 移动端
-        if (rule === 'pattern') {
-          value.message = '开始时间不能小于结束时间';
-          return false;
-        } else {
-          return true;
-        }
-      }
-    };
+  (value) => {
+    return 'name';
   };
 }
 ```
 
-### valueFormatter
+### defaultValue
 
 - 类别：字段属性
 - 名称：默认值
@@ -192,15 +195,7 @@ toc: menu
 
 指控件初始值。
 
-示例：
-
-```js
-{
-  valueFormatter: '默认值';
-}
-```
-
-### defaultValue
+### required
 
 - 类别：字段属性
 - 名称：必填
@@ -208,17 +203,9 @@ toc: menu
 - 默认值：`false`
 - 详细：
 
-字段是否必填，默认 onBlur 时校验。
+字段是否必填，默认失去焦点时校验。
 
-示例：
-
-```js
-{
-  defaultValue: 'false';
-}
-```
-
-### required
+### requiredMessage
 
 - 类别：字段属性
 - 名称：必填错误消息
@@ -226,15 +213,333 @@ toc: menu
 - 默认值：`''`
 - 详细：
 
-必填提示消息，如果未配置此属性，将默认提示规则：${title}不能为空。
+必填提示消息，如果未配置此属性，将默认提示规则：\*\*不能为空。
 
 示例：
 
 ```js
 {
-  valueFormatter: '默认值';
+  requiredMessage: '**不能为空';
 }
 ```
+
+### requiredMessageLangKey
+
+- 类别：字段属性
+- 名称：必填消息国际化标识
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+指多语言对应的 key，不限制标识格式。
+
+示例：
+
+```js
+{
+  requiredMessageLangKey: '**Cannot be empty';
+}
+```
+
+### 受控中心
+
+- 类别：字段属性
+- 详细：
+
+指配置各个组件的联动状态等。
+
+### validator
+
+- 类别：字段属性
+- 名称：校验规则
+- 类型：`undefined`
+- 默认值：`undefined`
+- 详细：
+
+自定义校验规则。
+
+### typeErrorMessage
+
+- 类别：字段属性
+- 名称：类型错误消息
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+类型错误消息。
+
+示例：
+
+```js
+{
+  typeErrorMessage: '**格式校验不正确';
+}
+```
+
+### typeErrorMessageLangKey
+
+- 类别：字段属性
+- 名称：类型错误消息国际化标识
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+指多语言对应的 key，不限制标识格式。
+
+示例：
+
+```js
+{
+  typeErrorMessageLangKey: '**Incorrect format verification';
+}
+```
+
+### 组件属性
+
+### size
+
+- 类别：组件属性
+- 名称：尺寸
+- 类型：`string|undefind`
+- 参数：`('large', 'default', 'small')`
+- 默认值：`undefined`
+- 详细：
+
+输入框大小。
+
+### addonBefore
+
+- 类别：组件属性
+- 名称：前缀标签
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框前缀标签。
+
+### addonAfter
+
+- 类别：组件属性
+- 名称：后缀标签
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框后缀标签。
+
+### prefix
+
+- 类别：组件属性
+- 名称：前缀
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框前缀标签。
+
+### suffix
+
+- 类别：组件属性
+- 名称：后缀
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框后缀标签。
+
+### allowClear
+
+- 类别：组件属性
+- 名称：允许清除内容
+- 类型：`boolean`
+- 默认值：`false`
+- 详细：
+
+一键清除输入框内容。
+
+### maxLength
+
+- 类别：组件属性
+- 名称：最大长度
+- 类型：`number|null`
+- 默认值：`null`
+- 详细：
+
+输入框显示内容最大长度。
+
+### placeholder
+
+- 类别：组件属性
+- 名称：占位提醒
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框入字段提示信息,输入框无字段时显示。
+
+### placeholderLangKey
+
+- 类别：组件属性
+- 名称：占位提示国际化标识
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+占位提示多语言 key。
+
+### onChange
+
+- 类别：组件属性
+- 名称：改值动作
+- 类型：`string|undefined`
+- 默认值：`undefined`
+- 详细：
+
+输入框内容发生变化时，触发事件，数据来自表单配置中的动作响应中心数据，如若已选择数据在动作响应中心被删除，此处不会自动更新选中值，请主动删除。
+
+### onChange
+
+- 类别：组件属性
+- 名称：获取焦点动作
+- 类型：`string|undefined`
+- 默认值：`undefined`
+- 详细：
+
+输入框获取焦点时，触发事件，数据来自表单配置中的动作响应中心数据，如若已选择数据在动作响应中心被删除，此处不会自动更新选中值，请主动删除。
+
+### onBlur
+
+- 类别：组件属性
+- 名称：失去焦点动作
+- 类型：`string|undefined`
+- 默认值：`undefined`
+- 详细：
+
+输入失去焦点时，触发事件，数据来自表单配置中的动作响应中心数据，如若已选择数据在动作响应中心被删除，此处不会自动更新选中值，请主动删除。
+
+### 容器属性
+
+### tooltip
+
+- 类别：容器属性
+- 名称：提示
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框标题提示语。
+
+### tooltipLangKey
+
+- 类别：容器属性
+- 名称：提示国际化标识
+- 类型：`string`
+- 默认值：`''`
+- 详细：
+
+输入框标题提示语国际化标识。
+
+### labelWidth
+
+- 类别：容器属性
+- 名称：标签宽度
+- 类型：`string`
+- 默认值：`auto`
+- 详细：
+
+全局设置标签宽度，支持数值加单位 px、%、vh、em 或者 auto。
+
+### wrapperWidth
+
+- 类别：容器属性
+- 名称：组件宽度
+- 类型：`string`
+- 默认值：`auto`
+- 详细：
+
+全局设置组件宽度，支持数值加单位 px、%、vh、em 或者 auto。
+
+### labelCol
+
+- 类别：容器属性
+- 名称：标签栅格宽度
+- 类型：`number|null`
+- 默认值：`null`
+- 详细：
+
+采用 24 格栅格系统，与下面组件栅格宽度之和不能大于 24，且标签宽度和组件宽度只要其中有一个不是 auto，则栅格就不起作用。
+
+### wrapperCol
+
+- 类别：容器属性
+- 名称：组件栅格宽度
+- 类型：`number|null`
+- 默认值：`null`
+- 详细：
+
+采用 24 格栅格系统，与上面标签栅格宽度之和不能大于 24，且标签宽度和组件宽度只要其中有一个不是 auto，则栅格就不起作用。
+
+### labelAlign
+
+- 类别：容器属性
+- 名称：标签对齐方式
+- 类型：`string|undefined`
+- 参数：`('right', 'left')`
+- 默认值：`undefined`
+- 详细：
+
+允许的对齐方式。
+
+### wrapperAlign
+
+- 类别：容器属性
+- 名称：组件对齐方式
+- 类型：`string|undefined`
+- 参数：`('right', 'left')`
+- 默认值：`undefined`
+- 详细：
+
+允许的对齐方式。
+
+### hideLabel
+
+- 类别：容器属性
+- 名称：是否隐藏标签
+- 类型：`boolean`
+- 默认值：`false`
+- 详细：
+
+控制输入框标签显示与隐藏，表单控件可继承此属性。
+
+### colon
+
+- 类别：容器属性
+- 名称：是否有冒号
+- 类型：`boolean`
+- 默认值：`true`
+- 详细：
+
+控制输入框标签冒号显示与隐藏，表单控件可继承此属性。
+
+### asterisk
+
+- 类别：容器属性
+- 名称：是否有星号
+- 类型：`boolean`
+- 默认值：`true`
+- 详细：
+
+控制输入框星号显示与隐藏，表单控件可继承此属性。
+
+### customClass
+
+- 类别：容器属性
+- 名称：自定义类名
+- 类型：`Array.<string>`
+- 默认值：`[]`
+- 详细：
+
+此 className 来自自定义 style 中的类名或者自己自定义。
 
 ## 多行输入
 
