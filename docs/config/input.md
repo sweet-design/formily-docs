@@ -22,7 +22,7 @@ Entering content through the mouse or keyboard is the most basic form field wrap
 - Category: Field properties
 - name: Control category
 - Type: `string`
-- Default value:`input`
+- Default value:`'input'`
 - Details:
 
 The category of the control.
@@ -133,7 +133,7 @@ Example:
 - name: Display status
 - Parameters:`('visible', 'hidden', 'none')`
 - Type:`string`
-- Default value:`visible`
+- Default value:`'visible'`
 - Details:
 
 The display states of the fields are displayed - half hidden (only UI will be hidden) - all hidden (data will be deleted).
@@ -180,7 +180,7 @@ Example:
 ```js
 {
   (value) => {
-    return 'name';
+    return 'string';
   };
 }
 ```
@@ -397,7 +397,7 @@ Placeholder prompts multilingual keys.
 
 When the content of the input box changes, an event will be triggered. The data is from the action response center data in the form configuration. If the selected data is deleted in the action response center, the selected value will not be automatically updated here. Please delete it actively.
 
-### onChange
+### onFocus
 
 - Category: Component properties
 - name: Get focus action
